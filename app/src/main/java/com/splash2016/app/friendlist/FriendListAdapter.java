@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.splash2016.app.R;
+import com.splash2016.app.chat.ChatActivity;
 import com.splash2016.app.objects.Friend;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class FriendListAdapter extends ArrayAdapter<Friend> {
 
+    private static final String KEY_FRIEND_NAME = "name";
     private List<Friend> friendList;
     private Context context;
 
@@ -49,7 +51,7 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,7 +60,7 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
             view = layoutInflater.inflate(R.layout.list_friend, null);
         }
 
-        Friend friend = friendList.get(position);
+        final Friend friend = friendList.get(position);
 
         if(null != friend) {
             final CardView rowLayout = (CardView) view.findViewById(R.id.row_layout);
@@ -74,10 +76,10 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
             rowLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   /* Intent intent = new Intent(context, DateActivity.class);
-                    intent.putExtra("app", friendID);
+                    Intent intent = new Intent(context, ChatActivity.class);
+                    intent.putExtra(KEY_FRIEND_NAME, friend.getName());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent); */
+                    context.startActivity(intent);
                 }
             });
         }
