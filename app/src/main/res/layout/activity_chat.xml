@@ -19,6 +19,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="5dp"
         android:background="#eae9e9" />
 
     <LinearLayout
