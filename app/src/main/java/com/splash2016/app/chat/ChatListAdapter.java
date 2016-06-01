@@ -2,6 +2,7 @@ package com.splash2016.app.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,10 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
+        TextView txtTime = (TextView) convertView.findViewById(R.id.txtTime);
         Message message = messagesItems.get(position);
-        txtMsg.setText(message.getMessage());
+        txtMsg.setText(Html.fromHtml(message.getMessage() + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
+        txtTime.setText(message.getTime());
 
         return convertView;
     }

@@ -58,18 +58,17 @@ public class FriendListFragment extends Fragment {
 
     private List<Friend> getFriendList() {
         List<Friend> friendList = new ArrayList<>();
-        int id = 1;
 
-        friendList.add(new Friend(id++, FRIEND_NAME_1, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_2, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_3, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_4, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_5, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_6, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_7, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_8, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id++, FRIEND_NAME_9, FRIEND_DESCRIPTION));
-        friendList.add(new Friend(id, FRIEND_NAME_10, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_1, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_2, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_3, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_4, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_5, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_6, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_7, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_8, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_9, FRIEND_DESCRIPTION));
+        friendList.add(new Friend(FRIEND_NAME_10, FRIEND_DESCRIPTION));
 
         return friendList;
     }

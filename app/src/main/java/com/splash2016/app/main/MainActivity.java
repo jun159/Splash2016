@@ -1,4 +1,4 @@
-package com.splash2016.app;
+package com.splash2016.app.main;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.splash2016.app.R;
 import com.splash2016.app.friendlist.FriendListFragment;
 
 public class MainActivity extends AppCompatActivity {

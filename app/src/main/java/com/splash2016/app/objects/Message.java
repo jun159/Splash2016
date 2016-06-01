@@ -5,26 +5,30 @@ package com.splash2016.app.objects;
  */
 public class Message {
 
-    private String fromName;
+    private String friendName;
     private String message;
     private boolean isSelf;
+    private String date;
+    private String time;
 
     public Message() {
 
     }
 
-    public Message(String fromName, String message, boolean isSelf) {
-        this.fromName = fromName;
+    public Message(String friendName, String message, boolean isSelf, String date, String time) {
+        this.friendName = friendName;
         this.message = message;
         this.isSelf = isSelf;
+        this.date = date;
+        this.time = time;
     }
 
-    public String getFromName() {
-        return fromName;
+    public String getFriendName() {
+        return friendName;
     }
 
-    public void setFromName(String fromName) {
-        this.fromName = fromName;
+    public void setFromName(String friendName) {
+        this.friendName = friendName;
     }
 
     public String getMessage() {
@@ -43,4 +47,19 @@ public class Message {
         this.isSelf = isSelf;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

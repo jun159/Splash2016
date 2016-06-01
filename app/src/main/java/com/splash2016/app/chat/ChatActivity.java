@@ -14,23 +14,37 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.splash2016.app.R;
+import com.splash2016.app.database.ChatDatabase;
 import com.splash2016.app.objects.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by BAOJUN on 31/5/16.
  */
 public class ChatActivity extends AppCompatActivity {
 
+    private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd MMM yyyy");
+    private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
+
+    private static String[] friendMessage = { "Hey dude", "Go away! I don't wan to talk to you", "Hey, come back!", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
+
     private static final String KEY_FRIEND_NAME = "name";
+    private static final String ISSELF = "true";
+    private static final String ISNOTSELF = "false";
 
     private EditText editTextMessage;
     private ImageButton buttonSend;
     private ChatListAdapter adapter;
+    private Calendar calendar;
+    private ChatDatabase chatDatabase;
     private List<Message> messageList;
     private ListView listView;
+    private String friendName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,16 +53,19 @@ public class ChatActivity extends AppCompatActivity {
         // Display back arrow in toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getTestMessage();
 
         // Set name
         Bundle extras = getIntent().getExtras();
-        String friendName = extras.getString(KEY_FRIEND_NAME);
+        friendName = extras.getString(KEY_FRIEND_NAME);
         getSupportActionBar().setTitle(friendName);
 
+        calendar = calendar.getInstance();
+        //getTestMessage();
+        chatDatabase = new ChatDatabase(this);
         editTextMessage = (EditText) findViewById(R.id.edittext_message);
         buttonSend = (ImageButton) findViewById(R.id.button_send);
         listView = (ListView) findViewById(R.id.list_messages);
+        messageList = chatDatabase.getMessages(chatDatabase, friendName);
         adapter = new ChatListAdapter(getApplicationContext(), messageList);
         listView.setAdapter(adapter);
 
@@ -83,29 +100,49 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String message = editTextMessage.getText().toString();
-                saveMessage(message);
-                editTextMessage.setText("");
+                if(!message.isEmpty()) {
+                    saveMessage(message);
+                    updateListView();
+                }
             }
         });
     }
 
     private void saveMessage(String message) {
-
+        String date = DATEFORMATTER.format(calendar.getTime());
+        String time = TIMEFORMATTER.format(calendar.getTime()).replaceAll("\\.", "").toUpperCase();
+        chatDatabase.addMessage(chatDatabase, friendName, message, ISSELF, date, time);
+        chatDatabase.addMessage(chatDatabase, friendName, randomMessage(), ISNOTSELF, date, time);
     }
 
-    private void getTestMessage() {
-        messageList = new ArrayList<>();
-        messageList.add(new Message("Friend 1", "Hey dude", false));
-        messageList.add(new Message("Friend 1", "How are you?", false));
-        messageList.add(new Message("Friend 1", "Don't talk to me, go away!", true));
-        messageList.add(new Message("Friend 1", "Hey, come back!", false));
-        messageList.add(new Message("Friend 1", "Lame", true));
-        messageList.add(new Message("Friend 1", "Ahaha", true));
-        messageList.add(new Message("Friend 1", "Bye", true));
-        messageList.add(new Message("Friend 1", "Zzz", false));
-        messageList.add(new Message("Friend 1", "Hello hello hello hello hello hello hello hello hello hello hello hello hello ", false));
-        messageList.add(new Message("Friend 1", "Dudeeeeeeeeee!!!", false));
-        messageList.add(new Message("Friend 1", "Bye hahaha", true));
-        messageList.add(new Message("Friend 1", ">_>", false));
+    private void updateListView() {
+        editTextMessage.setText("");
+        messageList = chatDatabase.getMessages(chatDatabase, friendName);
+        adapter = new ChatListAdapter(getApplicationContext(), messageList);
+        listView.setAdapter(adapter);
     }
+
+    private String randomMessage() {
+        Random rand = new Random();
+        return friendMessage[rand.nextInt(7)];
+    }
+
+//    private void getTestMessage() {
+//        messageList = new ArrayList<>();
+//        String date = DATEFORMATTER.format(calendar.getTime());
+//        String time = TIMEFORMATTER.format(calendar.getTime()).replaceAll("\\.", "").toUpperCase();
+//
+//        messageList.add(new Message("Friend 1", "Hey dude", false, date, time));
+//        messageList.add(new Message("Friend 1", "How are you?", false, date, time));
+//        messageList.add(new Message("Friend 1", "Don't talk to me, go away!", true, date, time));
+//        messageList.add(new Message("Friend 1", "Hey, come back!", false, date, time));
+//        messageList.add(new Message("Friend 1", "Lame", true, date, time));
+//        messageList.add(new Message("Friend 1", "Ahaha", true, date, time));
+//        messageList.add(new Message("Friend 1", "Bye", true, date, time));
+//        messageList.add(new Message("Friend 1", "Zzz", false, date, time));
+//        messageList.add(new Message("Friend 1", "Hello hello hello hello hello hello hello hello hello hello hello hello hello ", false, date, time));
+//        messageList.add(new Message("Friend 1", "Dudeeeeeeeeee!!!", false, date, time));
+//        messageList.add(new Message("Friend 1", "Bye hahaha", true, date, time));
+//        messageList.add(new Message("Friend 1", ">_>", false, date, time));
+//    }
 }
