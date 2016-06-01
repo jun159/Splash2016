@@ -19,13 +19,13 @@ import java.util.List;
 /**
  * Created by BAOJUN on 31/5/16.
  */
-public class FriendListAdapter extends ArrayAdapter<Friend> {
+public class ListAdapter extends ArrayAdapter<Friend> {
 
     private static final String KEY_FRIEND_NAME = "name";
     private List<Friend> friendList;
     private Context context;
 
-    public FriendListAdapter(Context context, int resource,
+    public ListAdapter(Context context, int resource,
                           List<Friend> objects) {
         super(context, resource, objects);
 

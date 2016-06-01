@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.splash2016.app.R;
+import com.splash2016.app.chatlist.ChatListFragment;
 import com.splash2016.app.friendlist.FriendListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return new ChatListFragment();
                 case 1:
                     return new FriendListFragment();
             }

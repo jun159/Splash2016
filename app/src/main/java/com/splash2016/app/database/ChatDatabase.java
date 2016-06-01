@@ -97,6 +97,23 @@ public class ChatDatabase extends SQLiteOpenHelper {
         return messageList;
     }
 
+    public String getLastMessage(ChatDatabase data, String friendName) {
+        Cursor cursor = getCursor(data);
+        cursor.moveToLast();
+        String lastMessage = "";
+
+        do{
+            String currentName = cursor.getString(1);
+            if(currentName.equals(friendName)) {
+                lastMessage = cursor.getString(2);
+            }
+        } while (cursor.moveToNext());
+
+        cursor.close();
+
+        return lastMessage;
+    }
+
     private String generateID(ChatDatabase data) {
         Cursor cursor = getCursor(data);
         cursor.moveToFirst();
