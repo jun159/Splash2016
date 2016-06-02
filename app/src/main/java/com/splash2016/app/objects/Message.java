@@ -10,17 +10,19 @@ public class Message {
     private boolean isSelf;
     private String date;
     private String time;
+    private long dateTime;
 
     public Message() {
 
     }
 
-    public Message(String friendName, String message, boolean isSelf, String date, String time) {
+    public Message(String friendName, String message, boolean isSelf, String date, String time, long dateTime) {
         this.friendName = friendName;
         this.message = message;
         this.isSelf = isSelf;
         this.date = date;
         this.time = time;
+        this.dateTime = dateTime;
     }
 
     public String getFriendName() {
@@ -61,5 +63,13 @@ public class Message {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public long getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
     }
 }

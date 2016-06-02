@@ -56,7 +56,7 @@ public class ChatListAdapter extends BaseAdapter {
         TextView txtTime = (TextView) convertView.findViewById(R.id.txtTime);
         Message message = messagesItems.get(position);
         txtMsg.setText(Html.fromHtml(message.getMessage() + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
-        txtTime.setText(message.getTime());
+        txtTime.setText(message.getTime().replaceAll("\\.", "").toUpperCase());
 
         return convertView;
     }

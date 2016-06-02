@@ -1,8 +1,11 @@
 package com.splash2016.app.chat;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -28,6 +31,7 @@ import java.util.Random;
  */
 public class ChatActivity extends AppCompatActivity {
 
+    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss");
     private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd MMM yyyy");
     private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
 
@@ -69,6 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatListAdapter(getApplicationContext(), messageList);
         listView.setAdapter(adapter);
 
+        setResult(Activity.RESULT_OK);
         setButtonSend();
     }
 
@@ -102,17 +107,25 @@ public class ChatActivity extends AppCompatActivity {
                 String message = editTextMessage.getText().toString();
                 if(!message.isEmpty()) {
                     saveMessage(message);
-                    updateListView();
                 }
             }
         });
     }
 
     private void saveMessage(String message) {
-        String date = DATEFORMATTER.format(calendar.getTime());
-        String time = TIMEFORMATTER.format(calendar.getTime()).replaceAll("\\.", "").toUpperCase();
-        chatDatabase.addMessage(chatDatabase, friendName, message, ISSELF, date, time);
-        chatDatabase.addMessage(chatDatabase, friendName, randomMessage(), ISNOTSELF, date, time);
+        final String dateTime = DATETIMEFORMATTER.format(calendar.getTime());
+        final String date = DATEFORMATTER.format(calendar.getTime());
+        final String time = TIMEFORMATTER.format(calendar.getTime());
+        chatDatabase.addMessage(chatDatabase, friendName, message, ISSELF, date, time, dateTime);
+        updateListView();
+        // Delay before sending out new message
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                chatDatabase.addMessage(chatDatabase, friendName, randomMessage(), ISNOTSELF, date, time, dateTime);
+                updateListView();
+            }
+        }, 500);
     }
 
     private void updateListView() {

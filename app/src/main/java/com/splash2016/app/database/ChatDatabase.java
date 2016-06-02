@@ -3,14 +3,17 @@ package com.splash2016.app.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.splash2016.app.objects.Message;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +23,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = ChatDatabase.class.getSimpleName();
 
+    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss");
     public static final String SUCCESS_DATABASE = "ChatDatabase is created";
     public static final String SUCCESS_TABLE = "ChatTable is created";
     public static final String SUCCESS_ROW_ADDED = "One chat row inserted";
@@ -30,6 +34,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
     public static final String ISSELF = "is_self";
     public static final String DATE = "date";
     public static final String TIME = "time";
+    public static final String DATETIME = "dateTime";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "chat_data";
@@ -41,7 +46,8 @@ public class ChatDatabase extends SQLiteOpenHelper {
                         + MESSAGE + " TEXT NOT NULL, "
                         + ISSELF + " TEXT NOT NULL, "
                         + DATE + " TEXT NOT NULL, "
-                        + TIME + " TEXT NOT NULL); ";
+                        + TIME + " TEXT NOT NULL, "
+                        + DATETIME + " TEXT NOT NULL); ";
 
     public ChatDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,7 +66,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
     }
 
     public void addMessage(ChatDatabase data, String friendName, String message,
-                                  String isSelf, String date, String time) {
+                                  String isSelf, String date, String time, String dateTime) {
         SQLiteDatabase sqLiteDatabase = data.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -70,7 +76,9 @@ public class ChatDatabase extends SQLiteOpenHelper {
         contentValues.put(ISSELF, isSelf);
         contentValues.put(DATE, date);
         contentValues.put(TIME, time);
+        contentValues.put(DATETIME, dateTime);
 
+        Log.d(TAG, "ID: " + generateID(data));
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         Log.d(TAG, SUCCESS_ROW_ADDED);
     }
@@ -83,7 +91,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()) {
             Message message = new Message(cursor.getString(1), cursor.getString(2),
                     Boolean.parseBoolean(cursor.getString(3)),
-                    cursor.getString(4), cursor.getString(5));
+                    cursor.getString(4), cursor.getString(5), dateToMilliseconds(cursor.getString(6)));
 
             if(message.getFriendName().equals(friendName)) {
                 messageList.add(message);
@@ -97,43 +105,59 @@ public class ChatDatabase extends SQLiteOpenHelper {
         return messageList;
     }
 
-    public String getLastMessage(ChatDatabase data, String friendName) {
+    public Message getLastMessage(ChatDatabase data, String friendName) {
         Cursor cursor = getCursor(data);
         cursor.moveToLast();
-        String lastMessage = "";
+        Message message = new Message();
 
-        do{
+        do {
             String currentName = cursor.getString(1);
             if(currentName.equals(friendName)) {
-                lastMessage = cursor.getString(2);
+                message = new Message(cursor.getString(1), cursor.getString(2),
+                        Boolean.parseBoolean(cursor.getString(3)),
+                        cursor.getString(4), cursor.getString(5), dateToMilliseconds(cursor.getString(6)));
+                break;
             }
-        } while (cursor.moveToNext());
+        } while (cursor.moveToPrevious());
 
         cursor.close();
 
-        return lastMessage;
+        return message;
+    }
+
+    public void deleteFriend(ChatDatabase data, String friendName) {
+        String selection = FRIEND_NAME + "=?";
+        String[] args = { friendName };
+
+        SQLiteDatabase sqLiteDatabase = data.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME, selection, args);
     }
 
     private String generateID(ChatDatabase data) {
-        Cursor cursor = getCursor(data);
-        cursor.moveToFirst();
-        int size = 0;
-
-        while(!cursor.isAfterLast()) {
-            size++;
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        return String.valueOf(size);
+        SQLiteDatabase sqLiteDatabase = data.getReadableDatabase();
+        long size = DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_NAME);
+        return String.valueOf(size + 1);
     }
 
     private Cursor getCursor(ChatDatabase data) {
         // Read data from sqlite database
         SQLiteDatabase sqLiteDatabase = data.getReadableDatabase();
-        String[] columns = { ID, FRIEND_NAME, MESSAGE, ISSELF, DATE, TIME };
+        String[] columns = { ID, FRIEND_NAME, MESSAGE, ISSELF, DATE, TIME, DATETIME };
 
         // Points to first row of table
         return sqLiteDatabase.query(TABLE_NAME, columns, null, null, null, null, null);
+    }
+
+    private long dateToMilliseconds(String messageDate) {
+        long dateTimeMilliseconds = 0;
+        try {
+            Log.d(TAG, "Parse date: " + messageDate);
+            Date dateTime = DATETIMEFORMATTER.parse(messageDate);
+            dateTimeMilliseconds = dateTime.getTime();
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return dateTimeMilliseconds;
     }
 }

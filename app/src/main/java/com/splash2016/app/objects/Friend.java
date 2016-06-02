@@ -1,12 +1,14 @@
 package com.splash2016.app.objects;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by BAOJUN on 31/5/16.
  */
-public class Friend {
+public class Friend implements Comparable<Friend> {
 
     private static final String FRIEND_NAME_1 = "Friend 1";
     private static final String FRIEND_NAME_2 = "Friend 2";
@@ -22,6 +24,9 @@ public class Friend {
 
     private String name;
     private String description;
+    private String lastMessageDate;
+    private String lastMessageTime;
+    private long lastMessageDateTime;
 
     public Friend() {
 
@@ -30,6 +35,14 @@ public class Friend {
     public Friend(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Friend(String name, String description, String lastMessageDate, String lastMessageTime, long lastMessageDateTime) {
+        this.name = name;
+        this.description = description;
+        this.lastMessageDate = lastMessageDate;
+        this.lastMessageTime = lastMessageTime;
+        this.lastMessageDateTime = lastMessageDateTime;
     }
 
     public String getName() {
@@ -48,6 +61,30 @@ public class Friend {
         this.description = description;
     }
 
+    public String getLastMessageDate() {
+        return lastMessageDate;
+    }
+
+    public void setLastMessageDate(String lastMessageDate) {
+        this.lastMessageDate = lastMessageDate;
+    }
+
+    public String getLastMessageTime() {
+        return lastMessageTime;
+    }
+
+    public void setLastMessageTime(String lastMessageTime) {
+        this.lastMessageTime = lastMessageTime;
+    }
+
+    public long getLastMessageDateTime() {
+        return lastMessageDateTime;
+    }
+
+    public void setLastMessageDateTime(long lastMessageDateTime) {
+        this.lastMessageDateTime = lastMessageDateTime;
+    }
+
     public static List<Friend> getFriendList() {
         List<Friend> friendList = new ArrayList<>();
 
@@ -63,5 +100,16 @@ public class Friend {
         friendList.add(new Friend(Friend.FRIEND_NAME_10, Friend.FRIEND_DESCRIPTION));
 
         return friendList;
+    }
+
+    @Override
+    public int compareTo(@NonNull Friend another) {
+        if (this.getLastMessageDateTime() < another.getLastMessageDateTime()) {
+            return 1;
+        } else if (this.getLastMessageDateTime() > another.getLastMessageDateTime()) {
+            return -1;
+        }
+
+        return 0;
     }
 }
