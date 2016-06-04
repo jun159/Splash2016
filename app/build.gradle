@@ -28,4 +28,6 @@ dependencies {
     compile('com.afollestad:sectioned-recyclerview:0.2.2') {
         transitive = true
     }
+    // For AliceBot
+    compile files('libs/alicebot/lib/Ab.jar')
 }
