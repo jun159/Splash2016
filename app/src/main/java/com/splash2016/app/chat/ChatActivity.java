@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +23,7 @@ import android.widget.ListView;
 import com.splash2016.app.R;
 import com.splash2016.app.database.ChatDatabase;
 import com.splash2016.app.objects.Message;
+import com.splash2016.app.objects.MessageModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,13 +47,16 @@ public class ChatActivity extends AppCompatActivity {
     private static final String ISSELF = "true";
     private static final String ISNOTSELF = "false";
 
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
+    private RecyclerViewSectionAdapter adapter;
+    private LinearLayoutManager layoutManager;
+
     private EditText editTextMessage;
     private ImageButton buttonSend;
-    private ChatListAdapter adapter;
     private Calendar calendar;
     private ChatDatabase chatDatabase;
-    private List<Message> messageList;
-    private ListView listView;
+    private List<MessageModel> messageList;
     private String friendName;
 
     @Override
@@ -70,10 +77,20 @@ public class ChatActivity extends AppCompatActivity {
         chatDatabase = new ChatDatabase(this);
         editTextMessage = (EditText) findViewById(R.id.edittext_message);
         buttonSend = (ImageButton) findViewById(R.id.button_send);
-        listView = (ListView) findViewById(R.id.list_messages);
-        messageList = chatDatabase.getMessages(chatDatabase, friendName);
-        adapter = new ChatListAdapter(getApplicationContext(), messageList);
-        listView.setAdapter(adapter);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        messageList = getMessageList();
+        adapter = new RecyclerViewSectionAdapter(messageList);
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
+//        listView = (ListView) findViewById(R.id.list_messages);
+//        messageList = chatDatabase.getMessages(chatDatabase, friendName);
+//        adapter = new ChatListAdapter(getApplicationContext(), messageList);
+//        listView.setAdapter(adapter);
 
         setButtonSend();
     }
@@ -139,14 +156,45 @@ public class ChatActivity extends AppCompatActivity {
 
     private void updateListView() {
         editTextMessage.setText("");
-        messageList = chatDatabase.getMessages(chatDatabase, friendName);
-        adapter = new ChatListAdapter(getApplicationContext(), messageList);
-        listView.setAdapter(adapter);
+        messageList = getMessageList();
+        adapter = new RecyclerViewSectionAdapter(messageList);
+        recyclerView.setAdapter(adapter);
     }
 
     private String randomMessage() {
         Random rand = new Random();
-        return friendMessage[rand.nextInt(7)];
+        return friendMessage[rand.nextInt(6)];
+    }
+
+    private List<MessageModel> getMessageList() {
+        List<MessageModel> messageModelList = new ArrayList<>();
+        List<Message> messageList = chatDatabase.getMessages(chatDatabase, friendName);
+        int size = messageList.size();
+        int index = 0;
+
+        for (int i = 0; i < size; i++) {
+            MessageModel messageModel = new MessageModel();
+            Message message = messageList.get(i);
+            String date = message.getDate();
+            messageModel.setDateHeader(date);
+            Log.d(TAG, "Message: " + date);
+
+            ArrayList<Message> messages = new ArrayList<>();
+            for (int j = i; j < size; j++) {
+                message = messageList.get(j);
+                if(date.equals(message.getDate())) {
+                    Log.d(TAG, "Message date: " + date + " / " + message.getMessage());
+                    messages.add(message);
+                    index = j;
+                }
+            }
+
+            i = index;
+            messageModel.setAllMessagesInSection(messages);
+            messageModelList.add(messageModel);
+        }
+
+        return messageModelList;
     }
 
 //    private void getTestMessage() {

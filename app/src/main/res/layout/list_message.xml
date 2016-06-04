@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <FrameLayout
+        android:id="@+id/frameFrom"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="80dp"
+        android:background="@drawable/chat_from">
+
+        <TextView
+            android:id="@+id/txtTimeFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30AM"
+            android:textColor="@android:color/black"
+            android:layout_gravity="bottom|end"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/txtMsgFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="start|center_vertical" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameYou"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/chat_you">
+
+        <TextView
+            android:id="@+id/txtMsgYou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_you"
+            android:layout_marginEnd="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="end" />
+
+        <TextView
+            android:id="@+id/txtTimeYou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30AM"
+            android:textColor="@android:color/white"
+            android:layout_gravity="bottom|end"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:textSize="11sp" />
+    </FrameLayout>
+
+
+</RelativeLayout>
