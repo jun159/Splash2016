@@ -36,8 +36,8 @@ import java.util.Random;
  */
 public class ChatActivity extends AppCompatActivity {
 
-    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss");
-    private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd MMM yyyy");
+    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd/MM/yyyy h:mm:ss");
+    private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd/MM/yyyy");
     private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
 
     private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };

@@ -141,10 +141,22 @@ public class ChatDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.delete(TABLE_NAME, selection, args);
     }
 
-    private String generateID(ChatDatabase data) {
+    private long getSize(ChatDatabase data) {
         SQLiteDatabase sqLiteDatabase = data.getReadableDatabase();
-        long size = DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_NAME);
-        return String.valueOf(size + 1);
+        return DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_NAME);
+    }
+
+    private long generateID(ChatDatabase data) {
+        if(getSize(data) > 0) {
+            Cursor cursor = getCursor(data);
+            cursor.moveToLast();
+            long id = Long.parseLong(cursor.getString(0));
+            cursor.close();
+
+            return id + 1;
+        }
+
+        return 0;
     }
 
     private Cursor getCursor(ChatDatabase data) {
