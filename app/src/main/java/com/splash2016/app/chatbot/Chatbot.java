@@ -1,18 +1,11 @@
 package com.splash2016.app.chatbot;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.util.Log;
-
 import org.alicebot.ab.*;
 
-/**
- * Created by MunKeat on 5/6/2016.
- */
 public class Chatbot {
-    private Chatbot _chatbot = null;
-    private String _chatbotName = null;
-    private Chat _chatSession = null;
+    private static Chatbot _chatbot = null;
+    private static String _chatbotName = null;
+    private static Chat _chatSession = null;
 
     private final static String DEFAULT_CHATBOT_NAME = "sparky";
 
@@ -20,11 +13,11 @@ public class Chatbot {
         // Chatbot is intended as a Singleton
     }
 
-    public Chatbot getInstance() {
+    public static Chatbot getInstance() {
         return getInstance(null);
     }
 
-    public Chatbot getInstance(String chatbotName) {
+    public static Chatbot getInstance(String chatbotName) {
         if (chatbotName == null) {
             // Initialise chatbot
             _chatbotName = DEFAULT_CHATBOT_NAME;
@@ -43,7 +36,11 @@ public class Chatbot {
         return _chatbot;
     }
 
-    private String getAliceBotPathName() {
+    public Chat getChatbot() {
+        return _chatSession;
+    }
+
+    private static String getAliceBotPathName() {
         // TODO Get path to be set as .../Splash2016/app/libs/alicebot/
         String path = null;
 
