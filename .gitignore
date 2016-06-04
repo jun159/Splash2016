@@ -6,3 +6,7 @@
 .DS_Store
 /build
 /captures
+*.project
+.idea/vcs.xml
+.idea/misc.xml
+.idea/gradle.xml
