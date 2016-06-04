@@ -5,6 +5,7 @@ import java.util.*;
 public class Storage{
 	private static File csvFile;
 	private static final String FILE_NAME = "speech.csv";
+	private String alternateFileName;
 	
 	private BufferedReader reader;
 	private BufferedWriter writer;
@@ -15,11 +16,17 @@ public class Storage{
 	private String lineWrite;
 	
 	public Storage(){
+		csvFile = new File(FILE_NAME);
 		initializeFile();
 		isHeaderRead = false;
 		try {
 			writer = new BufferedWriter(new FileWriter(csvFile,true));
 		} catch (IOException e) {}
+	}
+	
+	public void resetFileName(String fileName){
+		csvFile = new File(fileName);
+		initializeFile();
 	}
 	
 	/*dealing with read*/
@@ -111,7 +118,6 @@ public class Storage{
 	
 	/*BackEnd*/
 	private void initializeFile(){
-		csvFile = new File(FILE_NAME);
 		if(!csvFile.exists()){
 			try {
 				csvFile.createNewFile();
