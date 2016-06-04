@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private static String[] friendMessage = { "Hey dude", "Go away! I don't wan to talk to you", "Hey, come back!", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
 
+    private static final String TAG = ChatActivity.class.getSimpleName();
     private static final String KEY_FRIEND_NAME = "name";
     private static final String ISSELF = "true";
     private static final String ISNOTSELF = "false";
@@ -73,7 +75,6 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatListAdapter(getApplicationContext(), messageList);
         listView.setAdapter(adapter);
 
-        setResult(Activity.RESULT_OK);
         setButtonSend();
     }
 
@@ -85,6 +86,14 @@ public class ChatActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        Log.d(TAG, "onActivityResult setResult");
+        super.onBackPressed();
     }
 
     @Override

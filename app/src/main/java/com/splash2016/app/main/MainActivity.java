@@ -1,5 +1,7 @@
 package com.splash2016.app.main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,8 @@ import com.splash2016.app.R;
 import com.splash2016.app.chatlist.ChatListFragment;
 import com.splash2016.app.friendlist.FriendListFragment;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -33,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int MYACTIVITY_REQUEST_CODE = 9000;
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private static ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: " + " " + requestCode + " == " + MYACTIVITY_REQUEST_CODE + " and " + resultCode + " == " + Activity.RESULT_OK);
+        Log.d(TAG, "onActivityResult: " + MainActivity.class.getSimpleName());
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,10 +117,16 @@ public class MainActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
+        private static final String TAG = PlaceholderFragment.class.getSimpleName();
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
 
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
 
         /**

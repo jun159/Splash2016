@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public class ListAdapter extends ArrayAdapter<Friend> {
 
+    private static final String TAG = ListAdapter.class.getSimpleName();
     private static final String TITLE_DELETE = "Delete chat";
     private static final String MESSAGE_DELETE = "Are you sure you want to delete chat?";
     private static final String MESSAGE_OK = "Ok";
@@ -104,7 +106,7 @@ public class ListAdapter extends ArrayAdapter<Friend> {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ChatActivity.class);
                     intent.putExtra(KEY_FRIEND_NAME, friend.getName());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Log.d(TAG, "onActivityResult call");
                     ((Activity) context).startActivityForResult(intent, MYACTIVITY_REQUEST_CODE);
                 }
             });

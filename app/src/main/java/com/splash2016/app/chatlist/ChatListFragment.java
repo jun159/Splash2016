@@ -72,13 +72,14 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, requestCode + " == " + MYACTIVITY_REQUEST_CODE + " and " + resultCode + " == " + Activity.RESULT_OK);
+        Log.d(TAG, "onActivityResult: " + TAG);
+        Log.d(TAG, "onActivityResult: " + " " + requestCode + " == " + MYACTIVITY_REQUEST_CODE + " and " + resultCode + " == " + Activity.RESULT_OK);
         if ((requestCode == MYACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             List<Friend> friendList = getFriendChatList();
             adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, true);
             adapter.notifyDataSetChanged();
             listView.setAdapter(adapter);
-            Log.d(TAG, "Number of friend chats: " + getFriendChatList().size());
+            Log.d(TAG, "onActivityResult number of friend chats: " + getFriendChatList().size());
             if(friendList.isEmpty()) {
                 linearLayout.setVisibility(View.VISIBLE);
             } else {
