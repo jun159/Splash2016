@@ -89,7 +89,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
-            Message message = new Message(cursor.getString(1), cursor.getString(2),
+            Message message = new Message(Long.parseLong(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                     Boolean.parseBoolean(cursor.getString(3)),
                     cursor.getString(4), cursor.getString(5), dateToMilliseconds(cursor.getString(6)));
 
@@ -113,7 +113,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
         do {
             String currentName = cursor.getString(1);
             if(currentName.equals(friendName)) {
-                message = new Message(cursor.getString(1), cursor.getString(2),
+                message = new Message(Long.parseLong(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                         Boolean.parseBoolean(cursor.getString(3)),
                         cursor.getString(4), cursor.getString(5), dateToMilliseconds(cursor.getString(6)));
                 break;
@@ -123,6 +123,14 @@ public class ChatDatabase extends SQLiteOpenHelper {
         cursor.close();
 
         return message;
+    }
+
+    public void deleteMessage(ChatDatabase data, long id) {
+        String selection = ID + "=?";
+        String[] args = { String.valueOf(id) };
+
+        SQLiteDatabase sqLiteDatabase = data.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME, selection, args);
     }
 
     public void deleteFriend(ChatDatabase data, String friendName) {

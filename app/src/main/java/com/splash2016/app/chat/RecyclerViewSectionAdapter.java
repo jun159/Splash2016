@@ -1,5 +1,8 @@
 package com.splash2016.app.chat;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.splash2016.app.R;
+import com.splash2016.app.database.ChatDatabase;
 import com.splash2016.app.objects.Message;
 import com.splash2016.app.objects.MessageModel;
 
@@ -23,10 +27,18 @@ import java.util.List;
 public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = RecyclerViewSectionAdapter.class.getSimpleName();
-    private List<MessageModel> messageModelList;
+    private static final String TITLE_DELETE = "Delete message";
+    private static final String MESSAGE_DELETE = "Are you sure you want to delete message?";
+    private static final String MESSAGE_OK = "Ok";
+    private static final String MESSAGE_CANCEL = "Cancel";
 
-    public RecyclerViewSectionAdapter(List<MessageModel> messageModelList) {
+    private ChatDatabase chatDatabase;
+    private List<MessageModel> messageModelList;
+    private Context context;
+
+    public RecyclerViewSectionAdapter(List<MessageModel> messageModelList, Context context) {
         this.messageModelList = messageModelList;
+        this.context = context;
     }
 
     @Override
@@ -49,21 +61,23 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, int relativePosition, int absolutePosition) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, final int relativePosition, int absolutePosition) {
         ArrayList<Message> itemsInSection = messageModelList.get(section).getAllMessagesInSection();
-        Message message = itemsInSection.get(relativePosition);
+        final Message message = itemsInSection.get(relativePosition);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
 
         if(message.isSelf()) {
-            itemViewHolder.frameYou.setVisibility(View.VISIBLE);
             itemViewHolder.frameFrom.setVisibility(View.GONE);
+            itemViewHolder.frameYou.setVisibility(View.VISIBLE);
             itemViewHolder.txtMsgYou.setText(Html.fromHtml(message.getMessage() + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
             itemViewHolder.txtTimeYou.setText(message.getTime().replaceAll("\\.", "").toUpperCase());
+            setLongClick(itemViewHolder.frameYou, message, relativePosition, section);
         } else {
             itemViewHolder.frameYou.setVisibility(View.GONE);
             itemViewHolder.frameFrom.setVisibility(View.VISIBLE);
             itemViewHolder.txtMsgFrom.setText(Html.fromHtml(message.getMessage() + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
             itemViewHolder.txtTimeFrom.setText(message.getTime().replaceAll("\\.", "").toUpperCase());
+            setLongClick(itemViewHolder.frameFrom, message, relativePosition, section);
         }
     }
 
@@ -112,5 +126,42 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
             txtMsgYou = (TextView) itemView.findViewById(R.id.txtMsgYou);
             txtTimeYou = (TextView) itemView.findViewById(R.id.txtTimeYou);
         }
+    }
+
+    private void setLongClick(FrameLayout frame, final Message message, final int relativePosition, final int section) {
+        frame.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                alertDialog(message.getId(), relativePosition, section);
+                return true;
+            }
+        });
+    }
+
+    private void alertDialog(final long id, final int position, final int section) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setIcon(R.drawable.ic_warning_black_24dp);
+        builder.setTitle(TITLE_DELETE);
+        builder.setMessage(MESSAGE_DELETE);
+
+        builder.setPositiveButton(MESSAGE_OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                chatDatabase = new ChatDatabase(context);
+                messageModelList.get(section).getAllMessagesInSection().remove(position);
+                notifyDataSetChanged();
+                chatDatabase.deleteMessage(chatDatabase, id);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(MESSAGE_CANCEL, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

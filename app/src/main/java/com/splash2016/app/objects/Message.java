@@ -5,6 +5,7 @@ package com.splash2016.app.objects;
  */
 public class Message {
 
+    private long id;
     private String friendName;
     private String message;
     private boolean isSelf;
@@ -16,13 +17,22 @@ public class Message {
 
     }
 
-    public Message(String friendName, String message, boolean isSelf, String date, String time, long dateTime) {
+    public Message(long id, String friendName, String message, boolean isSelf, String date, String time, long dateTime) {
+        this.id = id;
         this.friendName = friendName;
         this.message = message;
         this.isSelf = isSelf;
         this.date = date;
         this.time = time;
         this.dateTime = dateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFriendName() {

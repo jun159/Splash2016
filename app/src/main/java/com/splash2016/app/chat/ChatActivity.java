@@ -80,7 +80,7 @@ public class ChatActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         messageList = getMessageList();
-        adapter = new RecyclerViewSectionAdapter(messageList);
+        adapter = new RecyclerViewSectionAdapter(messageList, ChatActivity.this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -157,7 +157,7 @@ public class ChatActivity extends AppCompatActivity {
     private void updateListView() {
         editTextMessage.setText("");
         messageList = getMessageList();
-        adapter = new RecyclerViewSectionAdapter(messageList);
+        adapter = new RecyclerViewSectionAdapter(messageList, ChatActivity.this);
         recyclerView.setAdapter(adapter);
     }
 
