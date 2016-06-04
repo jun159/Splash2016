@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd MMM yyyy");
     private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
 
-    private static String[] friendMessage = { "Hey dude", "Go away! I don't wan to talk to you", "Hey, come back!", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
+    private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final String KEY_FRIEND_NAME = "name";
