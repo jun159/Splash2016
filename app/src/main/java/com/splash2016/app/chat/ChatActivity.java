@@ -1,15 +1,11 @@
 package com.splash2016.app.chat;
 
-import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -18,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import com.splash2016.app.R;
+import com.splash2016.app.chatbot.Chatbot;
 import com.splash2016.app.database.ChatDatabase;
 import com.splash2016.app.objects.Message;
 import com.splash2016.app.objects.MessageModel;
+
+import org.alicebot.ab.Chat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +38,9 @@ public class ChatActivity extends AppCompatActivity {
     private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd/MM/yyyy");
     private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
 
-    private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
+    private static final Chatbot chatbot = Chatbot.getInstance();
+    private static final Chat robot = chatbot.getChatbot();
+    // private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final String KEY_FRIEND_NAME = "name";
@@ -148,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                chatDatabase.addMessage(chatDatabase, friendName, randomMessage(), ISNOTSELF, date, time, dateTime);
+                chatDatabase.addMessage(chatDatabase, friendName, replyMessage(), ISNOTSELF, date, time, dateTime);
                 updateListView();
             }
         }, 500);
@@ -161,9 +161,15 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private String randomMessage() {
-        Random rand = new Random();
-        return friendMessage[rand.nextInt(6)];
+    private String replyMessage() {
+        // Random rand = new Random();
+        // return friendMessage[rand.nextInt(6)];
+
+        // TODO Get message
+        String message = "How are you?";
+        String reply = robot.multisentenceRespond(message);
+
+        return reply;
     }
 
     private List<MessageModel> getMessageList() {
