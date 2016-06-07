@@ -13,10 +13,6 @@ public class Chatbot {
         // Chatbot is intended as a Singleton
     }
 
-    public static Chatbot getInstance() {
-        return getInstance(null);
-    }
-
     public static Chatbot getInstance(String chatbotName) {
         if (chatbotName == null) {
             // Initialise chatbot
@@ -36,13 +32,22 @@ public class Chatbot {
         return _chatbot;
     }
 
+    public static Chatbot getInstance() {
+        return getInstance(null);
+    }
+
     public Chat getChatbot() {
         return _chatSession;
     }
 
     private static String getAliceBotPathName() {
-        // TODO Get path to be set as .../Splash2016/app/libs/alicebot/
-        String path = null;
+        // TODO Note quick hack to get lib directory
+        String relativeDirectoryOfLib = "libs/alicebot/";
+        String delimiter = "app/";
+        String currentDir = System.getProperty("user.dir");
+        String path = currentDir.substring(0, currentDir.indexOf(delimiter) + delimiter.length());
+
+        path += relativeDirectoryOfLib;
 
         return path;
     }
