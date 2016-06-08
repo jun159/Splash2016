@@ -138,7 +138,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void saveMessage(String message) {
+    private void saveMessage(final String message) {
         final String dateTime = DATETIMEFORMATTER.format(calendar.getTime());
         final String date = DATEFORMATTER.format(calendar.getTime());
         final String time = TIMEFORMATTER.format(calendar.getTime());
@@ -148,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                chatDatabase.addMessage(chatDatabase, friendName, replyMessage(), ISNOTSELF, date, time, dateTime);
+                chatDatabase.addMessage(chatDatabase, friendName, replyMessage(message), ISNOTSELF, date, time, dateTime);
                 updateListView();
             }
         }, 500);
@@ -161,12 +161,12 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private String replyMessage() {
+    private String replyMessage(String message) {
         // Random rand = new Random();
         // return friendMessage[rand.nextInt(6)];
 
         // TODO Get message
-        String message = "How are you?";
+        // String message = "How are you?";
         String reply = robot.multisentenceRespond(message);
 
         return reply;
