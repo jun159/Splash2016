@@ -29,5 +29,13 @@ dependencies {
         transitive = true
     }
     // For AliceBot
-    compile files('libs/alicebot/lib/Ab.jar')
+    compile files('src/libs/alicebot/lib/Ab.jar')
 }
+
+task zipAlicebotFolderIntoAsset(type: Zip, overwrite: true) {
+    archiveName 'bots.zip'
+    from fileTree(dir: 'src/libs/alicebot/bots')
+    destinationDir file('src/main/assets/')
+}
+
+preBuild.dependsOn(zipAlicebotFolderIntoAsset)
