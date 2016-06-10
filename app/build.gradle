@@ -35,6 +35,7 @@ dependencies {
 task zipAlicebotFolderIntoAsset(type: Zip, overwrite: true) {
     archiveName 'bots.zip'
     from fileTree(dir: 'src/libs/alicebot/bots')
+    into "bots/"
     destinationDir file('src/main/assets/')
 }
 

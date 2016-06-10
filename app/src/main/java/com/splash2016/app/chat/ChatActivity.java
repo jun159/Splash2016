@@ -38,8 +38,8 @@ public class ChatActivity extends AppCompatActivity {
     private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd/MM/yyyy");
     private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
 
-    private static final Chatbot chatbot = Chatbot.getInstance();
-    private static final Chat robot = chatbot.getChatbot();
+    private Chatbot chatbot;
+    private Chat robot;
     // private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
 
     private static final String TAG = ChatActivity.class.getSimpleName();
@@ -86,6 +86,8 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        chatbot = new Chatbot(this.getApplicationContext());
+        robot = chatbot.getChatbot();
 
 //        listView = (ListView) findViewById(R.id.list_messages);
 //        messageList = chatDatabase.getMessages(chatDatabase, friendName);

@@ -1,54 +1,82 @@
 package com.splash2016.app.chatbot;
 
+import android.content.Context;
+import android.util.Log;
+
 import org.alicebot.ab.*;
 
-public class Chatbot {
-    private static Chatbot _chatbot = null;
-    private static String _chatbotName = null;
-    private static Chat _chatSession = null;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+public class Chatbot {
+    private static Chat _chatSession = null;
+    private static Context _context = null;
+    private static String _chatbotName = null;
     private final static String DEFAULT_CHATBOT_NAME = "sparky";
 
-    private Chatbot() {
-        // Chatbot is intended as a Singleton
+    public Chatbot (Context context, String chatbotName) {
+        _chatbotName = (chatbotName == null) ? DEFAULT_CHATBOT_NAME : chatbotName;
+        _context = context;
+        // Instantiate the bot
+        String libPathName = getAliceBotPathName();
+        Bot bot = new Bot(_chatbotName, libPathName);
+        _chatSession = new Chat(bot);
     }
 
-    public static Chatbot getInstance(String chatbotName) {
-        if (chatbotName == null) {
-            // Initialise chatbot
-            _chatbotName = DEFAULT_CHATBOT_NAME;
-        } else {
-            _chatbotName = chatbotName;
-        }
-
-        if (_chatbot == null) {
-            _chatbot = new Chatbot();
-
-            String libPathName = getAliceBotPathName();
-            Bot bot = new Bot(_chatbotName, libPathName);
-            _chatSession = new Chat(bot);
-        }
-
-        return _chatbot;
-    }
-
-    public static Chatbot getInstance() {
-        return getInstance(null);
+    public Chatbot(Context context) {
+        this(context, null);
     }
 
     public Chat getChatbot() {
         return _chatSession;
     }
 
-    private static String getAliceBotPathName() {
-        // TODO Note quick hack to get lib directory
-        String relativeDirectoryOfLib = "libs/alicebot/";
-        String delimiter = "app/";
-        String currentDir = System.getProperty("user.dir");
-        String path = currentDir.substring(0, currentDir.indexOf(delimiter) + delimiter.length());
+    private String getAliceBotPathName() {
+        try {
+            unZipIt(_context.getAssets().open("bots.zip"), _context.getExternalFilesDir(null).getAbsolutePath() + "/");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
-        path += relativeDirectoryOfLib;
-
+        String path = _context.getExternalFilesDir(null).getAbsolutePath() + "/";
+        
         return path;
+    }
+
+    private static void unZipIt(InputStream zipFile, String outputFolder) {
+        try {
+            // Get the zip file content
+            ZipInputStream zipFolderEntries = new ZipInputStream(zipFile);
+            // Placeholder for zip file entries
+            ZipEntry entry;
+
+            int bytesRead;
+            byte[] buffer = new byte[4096];
+
+            while ((entry = zipFolderEntries.getNextEntry()) != null) {
+                if (entry.isDirectory()) {
+                    // Create directory listed in zip file if it does not exist
+                    File dir = new File(outputFolder, entry.getName());
+                    System.out.println(dir.toString());
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
+                } else {
+                    // Output files
+                    FileOutputStream fos = new FileOutputStream(outputFolder + entry.getName());
+                    while ((bytesRead = zipFolderEntries.read(buffer)) >= 0) {
+                        fos.write(buffer, 0, bytesRead);
+                    }
+                    fos.close();
+                }
+            }
+            zipFolderEntries.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
