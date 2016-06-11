@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,8 @@ import com.splash2016.app.friendlist.ListAdapter;
 import com.splash2016.app.objects.Friend;
 import com.splash2016.app.objects.Message;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +25,6 @@ import java.util.List;
  */
 public class ChatListFragment extends Fragment {
 
-    private static final String TAG = ChatListFragment.class.getSimpleName();
     private static final int MYACTIVITY_REQUEST_CODE = 9000;
 
     private ListView listView;
@@ -49,7 +44,6 @@ public class ChatListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
         chatDatabase = new ChatDatabase(getActivity());
@@ -72,14 +66,11 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: " + TAG);
-        Log.d(TAG, "onActivityResult: " + " " + requestCode + " == " + MYACTIVITY_REQUEST_CODE + " and " + resultCode + " == " + Activity.RESULT_OK);
         if ((requestCode == MYACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             List<Friend> friendList = getFriendChatList();
             adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, true);
             adapter.notifyDataSetChanged();
             listView.setAdapter(adapter);
-            Log.d(TAG, "onActivityResult number of friend chats: " + getFriendChatList().size());
             if(friendList.isEmpty()) {
                 linearLayout.setVisibility(View.VISIBLE);
             } else {

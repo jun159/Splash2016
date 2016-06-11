@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by BAOJUN on 1/6/16.
@@ -23,7 +24,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = ChatDatabase.class.getSimpleName();
 
-    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss");
+    private static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss", Locale.getDefault());
     public static final String SUCCESS_DATABASE = "ChatDatabase is created";
     public static final String SUCCESS_TABLE = "ChatTable is created";
     public static final String SUCCESS_ROW_ADDED = "One chat row inserted";

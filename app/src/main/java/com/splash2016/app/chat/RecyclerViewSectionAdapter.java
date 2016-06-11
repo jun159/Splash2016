@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by BAOJUN on 4/6/16.
+ * Created by BAOJUN on 31/5/16.
  */
 public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = RecyclerViewSectionAdapter.class.getSimpleName();
     private static final String TITLE_DELETE = "Delete message";
     private static final String MESSAGE_DELETE = "Are you sure you want to delete message?";
     private static final String MESSAGE_OK = "Ok";
@@ -43,13 +41,11 @@ public class RecyclerViewSectionAdapter extends SectionedRecyclerViewAdapter<Rec
 
     @Override
     public int getSectionCount() {
-        Log.d(TAG, "RecyclerView section size: " + messageModelList.size());
         return messageModelList.size();
     }
 
     @Override
     public int getItemCount(int section) {
-        Log.d(TAG, "RecyclerView item size: " + messageModelList.get(section).getAllMessagesInSection().size());
         return messageModelList.get(section).getAllMessagesInSection().size();
     }
 

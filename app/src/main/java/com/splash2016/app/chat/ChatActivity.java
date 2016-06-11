@@ -27,20 +27,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
+import java.util.Locale;
 
 /**
  * Created by BAOJUN on 31/5/16.
  */
 public class ChatActivity extends AppCompatActivity {
 
-    private static SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd/MM/yyyy h:mm:ss");
-    private static SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd/MM/yyyy");
-    private static SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma");
+    private static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd/MM/yyyy h:mm:ss", Locale.getDefault());
+    private static final SimpleDateFormat DATEFORMATTER = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private static final SimpleDateFormat TIMEFORMATTER = new SimpleDateFormat("h:mma", Locale.getDefault());
 
     private Chatbot chatbot;
     private Chat robot;
-    // private static String[] friendMessage = { "Go away! I don't wan to talk to you", "I'm the best", "Lame", "Ahahaha", ">_>", "Bye ahaha!" };
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final String KEY_FRIEND_NAME = "name";
@@ -63,16 +62,13 @@ public class ChatActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        // Display back arrow in toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Set name
+        // Receive friend name
         Bundle extras = getIntent().getExtras();
         friendName = extras.getString(KEY_FRIEND_NAME);
-        getSupportActionBar().setTitle(friendName);
+        displayToolbar(friendName);
 
-        calendar = calendar.getInstance();
+        calendar = Calendar.getInstance();
         chatDatabase = new ChatDatabase(this);
         editTextMessage = (EditText) findViewById(R.id.edittext_message);
         buttonSend = (ImageButton) findViewById(R.id.button_send);
@@ -105,7 +101,6 @@ public class ChatActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
-        Log.d(TAG, "onActivityResult setResult");
         super.onBackPressed();
     }
 
@@ -113,8 +108,15 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat, menu);
-
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void displayToolbar(String friendName) {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle(friendName);
+        }
     }
 
     private void setButtonSend() {
@@ -129,20 +131,13 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void saveMessage(final String message) {
+    private void saveMessage(String message) {
         final String dateTime = DATETIMEFORMATTER.format(calendar.getTime());
         final String date = DATEFORMATTER.format(calendar.getTime());
         final String time = TIMEFORMATTER.format(calendar.getTime());
         chatDatabase.addMessage(chatDatabase, friendName, message, ISSELF, date, time, dateTime);
         updateListView();
-        // Delay before sending out new message
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                chatDatabase.addMessage(chatDatabase, friendName, replyMessage(message), ISNOTSELF, date, time, dateTime);
-                updateListView();
-            }
-        }, 500);
+        replyMessage(message, date, time, dateTime);
     }
 
     private void updateListView() {
@@ -152,10 +147,16 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private String replyMessage(String message) {
-        String reply = robot.multisentenceRespond(message);
-
-        return reply;
+    private void replyMessage(String message, final String date, final String time, final String dateTime) {
+        // Delay before sending out new message
+        final String reply = robot.multisentenceRespond(message);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                chatDatabase.addMessage(chatDatabase, friendName, reply, ISNOTSELF, date, time, dateTime);
+                updateListView();
+            }
+        }, 500);
     }
 
     private List<MessageModel> getMessageList() {
@@ -169,13 +170,11 @@ public class ChatActivity extends AppCompatActivity {
             Message message = messageList.get(i);
             String date = message.getDate();
             messageModel.setDateHeader(date);
-            Log.d(TAG, "Message: " + date);
 
             ArrayList<Message> messages = new ArrayList<>();
             for (int j = i; j < size; j++) {
                 message = messageList.get(j);
                 if(date.equals(message.getDate())) {
-                    Log.d(TAG, "Message date: " + date + " / " + message.getMessage());
                     messages.add(message);
                     index = j;
                 }
