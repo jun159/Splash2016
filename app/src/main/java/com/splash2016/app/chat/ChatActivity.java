@@ -73,7 +73,6 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(friendName);
 
         calendar = calendar.getInstance();
-        //getTestMessage();
         chatDatabase = new ChatDatabase(this);
         editTextMessage = (EditText) findViewById(R.id.edittext_message);
         buttonSend = (ImageButton) findViewById(R.id.button_send);
@@ -88,11 +87,6 @@ public class ChatActivity extends AppCompatActivity {
 
         chatbot = new Chatbot(this.getApplicationContext());
         robot = chatbot.getChatbot();
-
-//        listView = (ListView) findViewById(R.id.list_messages);
-//        messageList = chatDatabase.getMessages(chatDatabase, friendName);
-//        adapter = new ChatListAdapter(getApplicationContext(), messageList);
-//        listView.setAdapter(adapter);
 
         setButtonSend();
     }
@@ -119,11 +113,6 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_chat, menu);
-
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -164,11 +153,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private String replyMessage(String message) {
-        // Random rand = new Random();
-        // return friendMessage[rand.nextInt(6)];
-
-        // TODO Get message
-        // String message = "How are you?";
         String reply = robot.multisentenceRespond(message);
 
         return reply;
@@ -204,23 +188,4 @@ public class ChatActivity extends AppCompatActivity {
 
         return messageModelList;
     }
-
-//    private void getTestMessage() {
-//        messageList = new ArrayList<>();
-//        String date = DATEFORMATTER.format(calendar.getTime());
-//        String time = TIMEFORMATTER.format(calendar.getTime()).replaceAll("\\.", "").toUpperCase();
-//
-//        messageList.add(new Message("Friend 1", "Hey dude", false, date, time));
-//        messageList.add(new Message("Friend 1", "How are you?", false, date, time));
-//        messageList.add(new Message("Friend 1", "Don't talk to me, go away!", true, date, time));
-//        messageList.add(new Message("Friend 1", "Hey, come back!", false, date, time));
-//        messageList.add(new Message("Friend 1", "Lame", true, date, time));
-//        messageList.add(new Message("Friend 1", "Ahaha", true, date, time));
-//        messageList.add(new Message("Friend 1", "Bye", true, date, time));
-//        messageList.add(new Message("Friend 1", "Zzz", false, date, time));
-//        messageList.add(new Message("Friend 1", "Hello hello hello hello hello hello hello hello hello hello hello hello hello ", false, date, time));
-//        messageList.add(new Message("Friend 1", "Dudeeeeeeeeee!!!", false, date, time));
-//        messageList.add(new Message("Friend 1", "Bye hahaha", true, date, time));
-//        messageList.add(new Message("Friend 1", ">_>", false, date, time));
-//    }
 }

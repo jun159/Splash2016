@@ -42,7 +42,7 @@ public class Chatbot {
         }
 
         String path = _context.getExternalFilesDir(null).getAbsolutePath() + "/";
-        
+
         return path;
     }
 
