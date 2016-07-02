@@ -1,6 +1,7 @@
 package com.splash2016.app.chatbot;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import org.alicebot.ab.*;
@@ -35,13 +36,26 @@ public class Chatbot {
     }
 
     private String getAliceBotPathName() {
+
+        File filesDir;
+        String path = "";
+
+        String state = Environment.getExternalStorageState();
+
         try {
-            unZipIt(_context.getAssets().open("bots.zip"), _context.getExternalFilesDir(null).getAbsolutePath() + "/");
+            // Make sure it's available
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                filesDir = _context.getExternalFilesDir(null);
+                unZipIt(_context.getAssets().open("bots.zip"), _context.getExternalFilesDir(null).getAbsolutePath() + "/");
+                path = _context.getExternalFilesDir(null).getAbsolutePath() + "/";
+            } else {
+                filesDir = _context.getFilesDir();
+                unZipIt(_context.getAssets().open("bots.zip"), _context.getFilesDir().getAbsolutePath() + "/");
+                path = _context.getFilesDir().getAbsolutePath() + "/";
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        String path = _context.getExternalFilesDir(null).getAbsolutePath() + "/";
 
         return path;
     }
