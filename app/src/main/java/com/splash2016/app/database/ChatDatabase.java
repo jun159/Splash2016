@@ -24,7 +24,7 @@ public class ChatDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = ChatDatabase.class.getSimpleName();
 
-    private static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd MMM yyyy h:mm:ss", Locale.getDefault());
+    private static final SimpleDateFormat DATETIMEFORMATTER = new SimpleDateFormat("dd/MM/yyyy h:mm:ss", Locale.getDefault());
     public static final String SUCCESS_DATABASE = "ChatDatabase is created";
     public static final String SUCCESS_TABLE = "ChatTable is created";
     public static final String SUCCESS_ROW_ADDED = "One chat row inserted";

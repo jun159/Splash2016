@@ -165,7 +165,7 @@ public class ListAdapter extends ArrayAdapter<Friend> {
                 imageResource = R.drawable.friend_green;
                 break;
             case 2:
-                imageResource = R.drawable.friend_dark_blue;
+                imageResource = R.drawable.friend_dark_back;
                 break;
             case 3:
                 imageResource = R.drawable.friend_orange;
