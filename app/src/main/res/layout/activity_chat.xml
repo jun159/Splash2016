@@ -3,9 +3,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<include-->
-        <!--layout="@layout/toolbar_layout"/>-->
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,17 +10,6 @@
         android:background="#F7F7F7"
         android:id="@+id/recyclerView"
         android:paddingBottom="10dp"/>
-
-    <!--<ListView-->
-        <!--android:id="@+id/list_messages"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:fadingEdgeLength="0dp"-->
-        <!--android:divider="@null"-->
-        <!--android:transcriptMode="alwaysScroll"-->
-        <!--android:stackFromBottom="true">-->
-    <!--</ListView>-->
 
     <View
         android:layout_width="fill_parent"

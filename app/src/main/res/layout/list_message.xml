@@ -69,7 +69,6 @@
             android:id="@+id/txtTimeYou"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10:30AM"
             android:textColor="@android:color/white"
             android:layout_gravity="bottom|end"
             android:paddingTop="5dp"

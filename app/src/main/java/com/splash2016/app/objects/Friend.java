@@ -99,16 +99,16 @@ public class Friend implements Comparable<Friend> {
     public static List<Friend> getFriendList() {
         List<Friend> friendList = new ArrayList<>();
 
-        friendList.add(new Friend(Friend.FRIEND_NAME_1, Friend.FRIEND_DESCRIPTION, "27 | 0.8km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_2, Friend.FRIEND_DESCRIPTION, "33 | 1.1km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_3, Friend.FRIEND_DESCRIPTION, "23 | 1.3km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_4, Friend.FRIEND_DESCRIPTION, "40 | 1.3km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_5, Friend.FRIEND_DESCRIPTION, "38 | 1.6km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_6, Friend.FRIEND_DESCRIPTION, "38 | 1.8km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_7, Friend.FRIEND_DESCRIPTION, "36 | 1.8km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_8, Friend.FRIEND_DESCRIPTION, "32 | 2.1km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_9, Friend.FRIEND_DESCRIPTION, "33 | 2.3km"));
-        friendList.add(new Friend(Friend.FRIEND_NAME_10, Friend.FRIEND_DESCRIPTION, "28 | 2.4km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_1, Friend.FRIEND_DESCRIPTION, "♂ 27 | 0.8km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_2, Friend.FRIEND_DESCRIPTION, "♂ 33 | 1.1km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_3, Friend.FRIEND_DESCRIPTION, "♀ 23 | 1.3km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_4, Friend.FRIEND_DESCRIPTION, "♀ 40 | 1.3km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_5, Friend.FRIEND_DESCRIPTION, "♂ 38 | 1.6km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_6, Friend.FRIEND_DESCRIPTION, "♀ 38 | 1.8km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_7, Friend.FRIEND_DESCRIPTION, "♂ 36 | 1.8km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_8, Friend.FRIEND_DESCRIPTION, "♂ 32 | 2.1km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_9, Friend.FRIEND_DESCRIPTION, "♀ 33 | 2.3km"));
+        friendList.add(new Friend(Friend.FRIEND_NAME_10, Friend.FRIEND_DESCRIPTION,"♀ 28 | 2.4km"));
 
         return friendList;
     }
