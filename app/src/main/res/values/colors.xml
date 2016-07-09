@@ -10,6 +10,7 @@
     <color name="white">#FFFFFF</color>
 
     <color name="red_light">#FFFB6E72</color>
+    <color name="orange_light">#FFA000</color>
     <color name="green_light">#47c974</color>
     <color name="blue_light">#5d84fe</color>
     <color name="purple_light">#FFB78DFD</color>

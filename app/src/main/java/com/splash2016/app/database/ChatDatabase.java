@@ -172,7 +172,6 @@ public class ChatDatabase extends SQLiteOpenHelper {
     private long dateToMilliseconds(String messageDate) {
         long dateTimeMilliseconds = 0;
         try {
-            Log.d(TAG, "Parse date: " + messageDate);
             Date dateTime = DATETIMEFORMATTER.parse(messageDate);
             dateTimeMilliseconds = dateTime.getTime();
         } catch (ParseException e) {

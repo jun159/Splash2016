@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new ChatListFragment();
-                case 1:
                     return new FriendListFragment();
+                case 1:
+                    return new ChatListFragment();
             }
 
             return null;
@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "CHATS";
+                    return "LOOK AROUND";
                 case 1:
-                    return "FRIENDS";
+                    return "CHATS";
             }
             return null;
         }

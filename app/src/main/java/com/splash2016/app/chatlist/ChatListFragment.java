@@ -49,7 +49,7 @@ public class ChatListFragment extends Fragment {
         chatDatabase = new ChatDatabase(getActivity());
         List<Friend> friendList = getFriendChatList();
         listView = (ListView) rootView.findViewById(android.R.id.list);
-        adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, true);
+        adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, linearLayout, true);
         listView.setAdapter(adapter);
 
         linearLayout = (LinearLayout) rootView.findViewById(R.id.list_empty);
@@ -68,7 +68,7 @@ public class ChatListFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == MYACTIVITY_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             List<Friend> friendList = getFriendChatList();
-            adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, true);
+            adapter = new ListAdapter(getActivity(), R.layout.fragment_list, friendList, linearLayout, true);
             adapter.notifyDataSetChanged();
             listView.setAdapter(adapter);
             if(friendList.isEmpty()) {

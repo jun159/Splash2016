@@ -6,20 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.splash2016.app.R;
 import com.splash2016.app.chat.ChatActivity;
 import com.splash2016.app.database.ChatDatabase;
 import com.splash2016.app.objects.Friend;
-import com.splash2016.app.objects.Message;
 
 import java.util.List;
 
@@ -40,12 +38,15 @@ public class ListAdapter extends ArrayAdapter<Friend> {
     private List<Friend> friendList;
     private Context context;
     private ChatDatabase chatDatabase;
+    private LinearLayout linearLayout;
     private boolean isChat;
 
-    public ListAdapter(Context context, int resource, List<Friend> objects, boolean isChat) {
+    public ListAdapter(Context context, int resource, List<Friend> objects,
+                       LinearLayout linearLayout, boolean isChat) {
         super(context, resource, objects);
         this.context = context;
         this.friendList = objects;
+        this.linearLayout = linearLayout;
         this.chatDatabase = new ChatDatabase(context);
         this.isChat = isChat;
     }
@@ -74,7 +75,7 @@ public class ListAdapter extends ArrayAdapter<Friend> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if(null == view) {
-            view = layoutInflater.inflate(R.layout.list_friend, null);
+            view = layoutInflater.inflate(R.layout.list_chat, null);
         }
 
         final Friend friend = friendList.get(position);
@@ -91,13 +92,14 @@ public class ListAdapter extends ArrayAdapter<Friend> {
             friendDescription.setText(friend.getDescription());
 
             String lastChatTime = friend.getLastMessageTime();
+            String details = friend.getDetails();
             if(lastChatTime != null) {
                 lastChatTime = lastChatTime.replaceAll("\\.", "").toUpperCase();
-
-                // Set time
                 if(!lastChatTime.isEmpty()) {
-                    friendLastChatTime.setText(lastChatTime);
+                    friendLastChatTime.setText(lastChatTime);   // Set time
                 }
+            } else if(details != null) {
+                friendLastChatTime.setText(details);
             }
 
             // Open chat activity
@@ -106,7 +108,6 @@ public class ListAdapter extends ArrayAdapter<Friend> {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ChatActivity.class);
                     intent.putExtra(KEY_FRIEND_NAME, friend.getName());
-                    Log.d(TAG, "onActivityResult call");
                     ((Activity) context).startActivityForResult(intent, MYACTIVITY_REQUEST_CODE);
                 }
             });
@@ -131,6 +132,17 @@ public class ListAdapter extends ArrayAdapter<Friend> {
         chatDatabase.deleteFriend(chatDatabase, friendName);
     }
 
+    private void setMessage() {
+        if(linearLayout != null) {
+            linearLayout.setVisibility(View.GONE);
+            if (friendList.isEmpty()) {
+                linearLayout.setVisibility(View.VISIBLE);
+            } else {
+                linearLayout.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void alertDialog(final String friendName, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setIcon(R.drawable.ic_warning_black_24dp);
@@ -141,6 +153,7 @@ public class ListAdapter extends ArrayAdapter<Friend> {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 updateListView(friendName, position);
+                setMessage();
                 dialog.dismiss();
             }
         });
