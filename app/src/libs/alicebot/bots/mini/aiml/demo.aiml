@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="1.0.1" encoding="UTF-8"?>
+<category>
+	<pattern> HI </pattern>
+	<template>
+		Hello#Comma I'm Kirby. What's your <set name="topic">name</set>?
+	</template>
+</category>
+
+<topic name="name">
+	<category>
+		<pattern> * </pattern>
+		<template>
+			Hi <set name="username"><star/></set>#Comma did I get your name right?
+		</template>
+	</category>
+	<category>
+		<pattern> YES </pattern>
+		<template>
+			Hi <get name="username"/>#Comma <set name="topic">what do you do</set>?
+		</template>
+	</category>
+	<category>
+		<pattern> NO </pattern>
+		<template>
+			What's your <set name="topic">name</set> then?
+		</template>
+	</category>
+	<category>
+	<pattern> BYE </pattern>
+	<template>
+		Bye <get name="username"/>
+	</template>
+	</category>
+</topic>
+
+<topic name="what do you do">
+	<category>
+		<pattern> * </pattern>
+		<template>
+			Awesome! Can you help me out here? I will pay you for your help.
+		</template>
+	</category>
+		<pattern> NOT REALLY_ </pattern>
+		<template>
+			
+		</template>
+	<category>
+	
+	</category>
+	
+	<category>
+		<pattern> BYE </pattern>
+		<template>
+			Bye <get name="username"/>
+		</template>
+	</category>
+</topic>
+</aiml>

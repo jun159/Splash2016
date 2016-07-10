@@ -1,0 +1,8 @@
+0,HI,*,*,Hello#Comma I'm Kirby. What's your <set name="topic">name</set>?,demo.aiml,
+0,*,*,name,Hi <set name=""username""><star/></set>#Comma did I get your name right?,demo.aiml
+0,YES,*,name,Hi <get name="username"/>#Comma <set name="topic">what do you do</set>?,demo.aiml
+0,NO,*,name,"What's your <set name=""topic"">name</set> then?",demo.aiml
+0,BYE,*,name,Bye <get name="username"/>,demo.aiml
+0,*,*,what do you do,Awesome! Can you help me out here? I will pay you for your help.,demo.aiml
+0,NOT REALLY_,*,what do you do,): Please? It's urgent.,demo.aiml
+0,BYE,*,what do you do,Bye <get name="username"/>,demo.aiml

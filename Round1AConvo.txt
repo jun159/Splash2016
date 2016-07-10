@@ -1,1 +1,9 @@
 #Conversation demo for part 1A
+Me: Hello
+AI: Hello, I'm Mini, what's your name?
+Me: Abcde
+AI: That's a cool name! Are you okay to help me with a short survey?
+Me: Sure
+AI: Cool! Thanks so much. First question: Are you a student?
+Me: Yes
+AI: hahaha omg me too!
