@@ -81,7 +81,7 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        chatbot = new Chatbot(this.getApplicationContext());
+        chatbot = new Chatbot(this.getApplicationContext(), "mini");
         robot = chatbot.getChatbot();
 
         setButtonSend();
