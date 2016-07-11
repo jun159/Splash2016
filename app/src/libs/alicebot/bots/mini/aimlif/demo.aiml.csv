@@ -4,5 +4,13 @@
 0,NO,*,name,"What's your <set name=""topic"">name</set> then?",demo.aiml
 0,BYE,*,name,Bye <get name="username"/>,demo.aiml
 0,*,*,what do you do,Awesome! Can you help me out here? I will pay you for your help.,demo.aiml
-0,NOT REALLY_,*,what do you do,): Please? It's urgent.,demo.aiml
-0,BYE,*,what do you do,Bye <get name="username"/>,demo.aiml
+0,NOT REALLY,*,what do you do,<random><li>Please? It's really urgent T.T</li><li>Why not? I'll pay you for your help.</li><li>If you are not willing to help#Comma I gg le larh. T.T</li><li>No no#Comma it's not what you think.</li><li>I really know no one else to help me with this.</li><li>I know you are a kind hearted soul right?</li><li>I won't take no for an answer.</li><li>I'll pay you more.</li><li>Seriously? You wouldn't even help a friend in trouble?</li><li>I will always remember your help if you would help me this time.</li></random>,demo.aiml
+0,NO,*,what do you do,<srai>NOT REALLY</srai>,demo.aiml
+0,NO _,*,what do you do,<srai>NOT REALLY</srai>,demo.aiml
+0,SURE,*,what do you do,<random><li>NO. This is wrong. You are one step towards in aiding a crime. Never help anyone to transfer money. Especially someone you've never met in person!</li><li>Congratulations#Comma you are scammed. What you are going to do is a possible breaking of law.</li><li>Have you thought that the person you met online is part of a syndicate. The profile of the person is ambiguous.</li></random>,demo.aiml
+0,OK,*,what do you do,<srai>SURE</srai>,demo.aiml
+0,OK _,*,what do you do,<srai>SURE</srai>,demo.aiml
+0,SURE _,*,what do you do,<srai>SURE</srai>,demo.aiml
+0,THEN WHAT,*,what do you do,<random><li>If I don't pay tomorrow I will get myself in a lawsuit. You will help won't you?</li><li>I'm stuck at camp. If I could I would have gone out and pay it myself.</li><li>After chatting you I realized you are someone I could trust.</li><li>It's definitely legal. I swear.</li></random>,demo.aiml
+0,THEN WHAT _,*,what do you do,<srai>THEN WHAT</srai>,demo.aiml
+0,BYE,*,what do you do,Bye <get name="username"/>#Comma hope you will consider about it.,demo.aiml
