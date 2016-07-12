@@ -3,7 +3,7 @@
 <category>
 	<pattern> HI </pattern>
 	<template>
-		Hello#Comma I'm Kirby. What's your <set name="topic">name</set>?
+		Hello#Comma I'm Kirby. What's your <set name="topic"> name </set>?
 	</template>
 </category>
 
@@ -17,7 +17,7 @@
 	<category>
 		<pattern> YES </pattern>
 		<template>
-			Hi <get name="username"/>#Comma <set name="topic">what do you do</set>?
+			Hi <get name="username"/>#Comma <set name="topic"> what do you do </set>?
 		</template>
 	</category>
 	<category>
